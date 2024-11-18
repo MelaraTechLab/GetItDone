@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TaskCardView: View {
     let task: Task
+    var onEdit: () -> Void // Closure para editar
+    var onDelete: () -> Void // Closure para eliminar
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -34,10 +36,20 @@ struct TaskCardView: View {
         .cornerRadius(10)
         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
         .padding(.horizontal, 16)
+        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+            Button(action: onEdit) { // Llama al closure onEdit
+                Label("Editar", systemImage: "pencil")
+            }
+            .tint(.blue)
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button(action: onDelete) { // Llama al closure onDelete
+                Label("Eliminar", systemImage: "trash")
+            }
+            .tint(.red)
+        }
     }
 }
 
-#Preview {
-    TaskCardView(task: Task(title: "Tarea 1", description: "Prueba de tarjeta", isCompleted: true))
-}
+
 
